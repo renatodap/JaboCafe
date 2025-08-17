@@ -5,12 +5,14 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ProgressiveImage } from './ProgressiveImage'
 import { CoffeeSteam } from '../ambient/CoffeeSteam'
 import { useParallax } from '@/lib/hooks/useParallax'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export function HeroSection() {
   const [scrollVelocity, setScrollVelocity] = useState(0)
   const [lastScrollY, setLastScrollY] = useState(0)
   const { scrollY } = useScroll()
-  const { y, opacity, scale } = useParallax(100)
+  const { opacity } = useParallax(100)
+  const { t } = useLanguage()
   
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0])
   const heroScale = useTransform(scrollY, [0, 400], [1, 1.2])
@@ -86,7 +88,7 @@ export function HeroSection() {
             animate={{ opacity: 1, letterSpacing: '0.3em' }}
             transition={{ duration: 1.5, delay: 0.3 }}
           >
-            Desde 1938 • Guaxupé, MG
+            {t.hero.since} • {t.hero.location}
           </motion.p>
           
           {/* Logo Image */}
@@ -105,6 +107,30 @@ export function HeroSection() {
             />
           </motion.div>
           
+          {/* Video Section */}
+          <motion.div
+            className="relative w-full max-w-4xl mx-auto mb-8 rounded-2xl overflow-hidden shadow-2xl"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          >
+            <div className="relative aspect-video bg-black/20">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover"
+              >
+                <source src="/videos/jabo-cafe-intro.mp4" type="video/mp4" />
+                <source src="/videos/jabo-cafe-intro.webm" type="video/webm" />
+                {/* Fallback for browsers that don't support video */}
+                Seu navegador não suporta vídeos HTML5.
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+            </div>
+          </motion.div>
+          
           {/* Tagline */}
           <motion.p 
             className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light"
@@ -112,8 +138,8 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            Onde cada grão conta uma história de tradição,
-            <br />sustentabilidade e paixão pelo café
+            {t.hero.tagline}
+            <br />{t.hero.taglinePart2}
           </motion.p>
         </motion.div>
         

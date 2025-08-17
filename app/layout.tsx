@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Jabô Café - Tradição e Sustentabilidade Desde 1938 | Fazenda Jaboticabeiras",
@@ -139,10 +140,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
-        <a href="#main" className="skip-to-content">
-          Pular para o conteúdo principal
-        </a>
-        <main id="main">{children}</main>
+        <LanguageProvider>
+          <a href="#main" className="skip-to-content">
+            Pular para o conteúdo principal
+          </a>
+          <main id="main">{children}</main>
+        </LanguageProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `

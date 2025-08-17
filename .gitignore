@@ -39,3 +39,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Credentials and Secrets
+n8n-workflows/credentials-config.json
+n8n-workflows/*.env
+**/credentials.json
+**/secrets.json
+**/*_secret*
+**/*_private*
+**/*oauth*
+
+# API Keys
+*.key
+*.pem
+*.cert
+
+# Backup files
+*.backup
+*.bak

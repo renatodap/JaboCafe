@@ -5,33 +5,46 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ProgressiveImage } from './ProgressiveImage'
 import { useIntersectionObserver } from '@/lib/hooks/useIntersectionObserver'
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
-const employees = [
+const employeesData = [
   {
     id: 1,
-    name: 'Reginaldo',
-    role: 'Mestre de Colheita',
     image: '/images/IMAGE_funcionarioReginaldo.webp',
-    quote: 'Cada grão que colhemos carrega a história de gerações. É mais que trabalho, é preservar uma tradição.',
-    experience: '25 anos',
-    specialty: 'Seleção manual de grãos maduros',
-    story: 'Reginaldo cresceu nas terras da fazenda e conhece cada pé de café como a palma de sua mão. Sua experiência é fundamental para garantir que apenas os melhores grãos sejam colhidos.'
+    experience: 25,
   },
   {
     id: 2,
-    name: 'Everaldo',
-    role: 'Especialista em Sustentabilidade',
     image: '/images/IMAGE_funcionario_Everaldo.webp',
-    quote: 'Trabalhar com a terra é um privilégio. Nossa missão é deixá-la melhor para as próximas gerações.',
-    experience: '18 anos',
-    specialty: 'Práticas regenerativas e cultivo orgânico',
-    story: 'Everaldo é responsável por implementar as técnicas de agricultura regenerativa que tornaram a Fazenda Jaboticabeiras referência em sustentabilidade.'
+    experience: 18,
   }
 ]
 
 export function EmployeeSpotlight() {
   const [currentEmployee, setCurrentEmployee] = useState(0)
   const { ref, hasIntersected } = useIntersectionObserver({ threshold: 0.2 })
+  const { t, language } = useLanguage()
+  
+  const employees = [
+    {
+      ...employeesData[0],
+      name: t.employees.reginaldo.name,
+      role: t.employees.reginaldo.role,
+      bio: t.employees.reginaldo.bio,
+      quote: language === 'pt' 
+        ? 'Cada grão que colhemos carrega a história de gerações. É mais que trabalho, é preservar uma tradição.'
+        : 'Each bean we harvest carries the history of generations. It\'s more than work, it\'s preserving a tradition.',
+    },
+    {
+      ...employeesData[1],
+      name: t.employees.everaldo.name,
+      role: t.employees.everaldo.role,
+      bio: t.employees.everaldo.bio,
+      quote: language === 'pt'
+        ? 'Trabalhar com a terra é um privilégio. Nossa missão é deixá-la melhor para as próximas gerações.'
+        : 'Working with the land is a privilege. Our mission is to leave it better for the next generations.',
+    }
+  ]
   
   const nextEmployee = () => {
     setCurrentEmployee((prev) => (prev + 1) % employees.length)
@@ -51,13 +64,13 @@ export function EmployeeSpotlight() {
           className="text-center mb-16"
         >
           <p className="text-coffee-600 uppercase tracking-wider text-sm mb-4">
-            Nossa Equipe
+            {t.employees.subtitle}
           </p>
           <h2 className="text-4xl md:text-5xl font-serif text-coffee-900 mb-6">
-            As Pessoas Por Trás do Café
+            {t.employees.title}
           </h2>
           <p className="text-lg text-coffee-700 max-w-2xl mx-auto">
-            Conheça os mestres artesãos que dedicam suas vidas a produzir o melhor café
+            {t.employees.description}
           </p>
         </motion.div>
         
@@ -111,8 +124,8 @@ export function EmployeeSpotlight() {
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ delay: 0.5, type: 'spring' }}
                 >
-                  <span className="text-2xl font-bold">{employees[currentEmployee].experience.split(' ')[0]}</span>
-                  <span className="text-xs">anos</span>
+                  <span className="text-2xl font-bold">{employees[currentEmployee].experience}</span>
+                  <span className="text-xs">{t.employees.yearsExperience}</span>
                 </motion.div>
               </div>
               
@@ -138,24 +151,11 @@ export function EmployeeSpotlight() {
                   transition={{ delay: 0.3 }}
                 >
                   <p className="text-coffee-700 leading-relaxed">
-                    {employees[currentEmployee].story}
+                    {employees[currentEmployee].bio}
                   </p>
                 </motion.div>
                 
-                {/* Specialty */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="bg-coffee-50 rounded-xl p-6"
-                >
-                  <h4 className="text-sm uppercase tracking-wider text-coffee-600 mb-2">
-                    Especialidade
-                  </h4>
-                  <p className="text-coffee-900 font-medium">
-                    {employees[currentEmployee].specialty}
-                  </p>
-                </motion.div>
+                {/* Bio Section - Removed specialty as it's now part of bio */}
                 
                 {/* Navigation */}
                 <motion.div 

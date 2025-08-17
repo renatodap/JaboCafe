@@ -128,7 +128,7 @@ export function CoffeeBeanRain() {
                 <stop offset="100%" stopColor="rgba(139, 69, 19, 0)" />
               </radialGradient>
             </defs>
-            {beans.map((bean, i) => (
+            {beans.map((bean) => (
               <motion.circle
                 key={`glow-${bean.id}`}
                 cx={`${bean.x}%`}
